@@ -129,6 +129,13 @@ try {
   $json = ConvertTo-Json -InputObject $scores -Depth 6
   $destination = [IO.Path]::GetFullPath((Join-Path (Get-Location) $OutputPath))
   [IO.File]::WriteAllText($destination, "window.ARCADE_SCORES = $json;`n", [Text.UTF8Encoding]::new($false))
+  $indexPath = Join-Path (Split-Path -Parent (Split-Path -Parent $destination)) 'index.html'
+  if (Test-Path -LiteralPath $indexPath) {
+    $index = [IO.File]::ReadAllText($indexPath)
+    $version = (Get-Date).ToString('yyyyMMddHHmmss')
+    $index = [regex]::Replace($index, 'assets/data\.js(?:\?v=[0-9]+)?', "assets/data.js?v=$version")
+    [IO.File]::WriteAllText($indexPath, $index, [Text.UTF8Encoding]::new($false))
+  }
   Write-Output "Wrote $destination from $workbook (stage $stage, test data: $([bool]$TestData))."
 } finally {
   $zip.Dispose()

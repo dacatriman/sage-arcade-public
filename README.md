@@ -54,7 +54,7 @@ Desde la raíz del repositorio, con PowerShell 7:
 pwsh -NoProfile -File tools/Sync-ExcelScores.ps1 -WorkbookPath 'C:\ruta\Sage_Arcade_2026_Master.xlsx' -OutputPath 'assets/data.js'
 ```
 
-Para una prueba con cifras ficticias, añade `-TestData`. La página mostrará **TEST DATA**. Después de revisar `assets/data.js`, haz commit y push a `main`; GitHub Pages publicará el cambio. El Excel permanece local, por lo que GitHub Pages no puede leer sus cambios directamente.
+Para una prueba con cifras ficticias, añade `-TestData`. La página mostrará **TEST DATA**. El script actualiza `assets/data.js` y la versión de ese archivo en `index.html` para evitar datos antiguos en la caché del navegador. Después de revisar ambos archivos, haz commit y push a `main`; GitHub Pages publicará el cambio. El Excel permanece local, por lo que GitHub Pages no puede leer sus cambios directamente.
 
 ## Si la página no se ve bien
 
