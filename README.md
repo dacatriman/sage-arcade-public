@@ -18,6 +18,8 @@ assets/
     pixel-outlaws.png
     the-final-credits.png
     glitch-raiders.png
+tools/
+  Sync-ExcelScores.ps1
 ```
 
 No subas la carpeta completa `ARCADE GAME`, los libros Excel ni el Site privado. `index.html` debe quedar en la raíz, no dentro de `sage-arcade-github`.
@@ -40,7 +42,19 @@ No subas la carpeta completa `ARCADE GAME`, los libros Excel ni el Site privado.
 4. Cambia `updatedAt` por la fecha y hora del cambio, en formato ISO, por ejemplo `"2026-11-13T17:00:00+01:00"`.
 5. Pulsa **Commit changes**. GitHub Pages publicará el nuevo marcador desde ese commit. Recarga la página pública cuando termine el despliegue.
 
-Edita solo los números y `updatedAt` en `assets/data.js`; conserva las llaves, comas y nombres de producto. Los tres equipos empiezan en cero porque todavía no se ha publicado un cierre validado.
+Si editas el archivo a mano, conserva las llaves, comas y nombres de producto. Usa `testData: true` para cifras ficticias y `testData: false` para resultados validados.
+
+## Actualizar desde el Excel maestro
+
+El script `tools/Sync-ExcelScores.ps1` lee `Calendar & Rules!B5` y los SQO de `SQO Tracker`, suma por equipo y producto, y calcula el porcentaje frente al objetivo acumulado al cierre. Solo escribe agregados en `assets/data.js`; no publica nombres ni objetivos individuales. Requiere que `B5` sea una semana cerrada entre 1 y 8.
+
+Desde la raíz del repositorio, con PowerShell 7:
+
+```powershell
+pwsh -NoProfile -File tools/Sync-ExcelScores.ps1 -WorkbookPath 'C:\ruta\Sage_Arcade_2026_Master.xlsx' -OutputPath 'assets/data.js'
+```
+
+Para una prueba con cifras ficticias, añade `-TestData`. La página mostrará **TEST DATA**. Después de revisar `assets/data.js`, haz commit y push a `main`; GitHub Pages publicará el cambio. El Excel permanece local, por lo que GitHub Pages no puede leer sus cambios directamente.
 
 ## Si la página no se ve bien
 

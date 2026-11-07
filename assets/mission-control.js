@@ -74,9 +74,11 @@
     const next = weeks[Math.min(closed, 7)];
     $('#next-date').textContent = closed === 8 ? '31 DEC' : new Date(`${next.date}T12:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }).toUpperCase();
     $('#next-sub').textContent = closed === 8 ? 'Season complete' : `Stage ${String(next.number).padStart(2, '0')} · ${next.period}`;
-    $('#data-label').textContent = closed ? `PUBLIC DATA · ${closed} STAGES CLOSED` : 'NO DATA · NO STAGES CLOSED';
+    $('#data-label').textContent = scores?.testData
+      ? `TEST DATA · ${closed} STAGES CLOSED`
+      : closed ? `PUBLIC DATA · ${closed} STAGES CLOSED` : 'NO DATA · NO STAGES CLOSED';
     $('#updated-label').textContent = scores?.updatedAt && !Number.isNaN(Date.parse(scores.updatedAt))
-      ? `Updated ${new Date(scores.updatedAt).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })}`
+      ? `${scores?.testData ? 'Test data · ' : ''}Updated ${new Date(scores.updatedAt).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })}`
       : 'Awaiting first update';
   }
 

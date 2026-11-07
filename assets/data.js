@@ -1,24 +1,31 @@
-// EDITAR SOLO ESTE ARCHIVO PARA ACTUALIZAR EL MARCADOR PUBLICO.
-// Porcentajes acumulados, introducidos manualmente tras validar cada cierre.
-// 100 = 100 %. Se permiten decimales y valores superiores a 100.
-// closedStage: 0 antes del primer cierre; después, de 1 a 8.
-// updatedAt: fecha y hora ISO del último cambio, por ejemplo "2026-11-13T17:00:00+01:00".
-
 window.ARCADE_SCORES = {
-  closedStage: 0,
-  updatedAt: null,
-  teams: {
-    A: {
-      overall: 0,
-      products: { 'Sage 50 + Active': 0, 'Sage 200': 0, X3: 0 },
+  "closedStage": 1,
+  "testData": true,
+  "updatedAt": "2026-11-07T14:24:00+01:00",
+  "teams": {
+    "A": {
+      "overall": 55.76,
+      "products": {
+        "Sage 50 + Active": 40.32,
+        "Sage 200": 154.41,
+        "X3": 140.0
+      }
     },
-    B: {
-      overall: 0,
-      products: { 'Sage 50 + Active': 0, 'Sage 200': 0, X3: 0 },
+    "B": {
+      "overall": 60.1,
+      "products": {
+        "Sage 50 + Active": 46.32,
+        "Sage 200": 160.59,
+        "X3": 126.0
+      }
     },
-    C: {
-      overall: 0,
-      products: { 'Sage 50 + Active': 0, 'Sage 200': 0, X3: 0 },
-    },
-  },
+    "C": {
+      "overall": 91.03,
+      "products": {
+        "Sage 50 + Active": 67.65,
+        "Sage 200": 157.5,
+        "X3": 140.0
+      }
+    }
+  }
 };
