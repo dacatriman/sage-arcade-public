@@ -22,6 +22,7 @@
   const percent = value => `${number(value).toFixed(1).replace(/\.0$/, '')}%`;
   const ratioPercent = value => percent(value * 100);
   const closed = Math.max(0, Math.min(8, Number.isInteger(scores?.closedStage) ? scores.closedStage : 0));
+  const closedLabel = `${closed} ${closed === 1 ? 'stage' : 'stages'} closed`;
 
   function metrics(team) {
     const ratios = products.map(product => number(scores?.teams?.[team.id]?.products?.[product]) / 100);
@@ -53,7 +54,7 @@
       }).join('');
       const balance = metrics(team);
       const logo = `<img src="${team.logo}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span style="display:none">${team.icon}</span>`;
-      return `<article class="team-card ${team.id.toLowerCase()}"><div class="team-head"><div class="team-avatar" style="color:${team.color}">${logo}</div><div><div class="team-name">${team.name}</div><div class="team-code">TEAM ${team.id}</div></div><span class="stage-tag">STAGE ${String(stage).padStart(2, '0')}</span></div><div class="life-wrap"><div class="life-line"><span class="life-label">MISSION HEALTH</span><span class="life-val" style="color:${team.color}">${percent(overall)}</span></div><div class="life-sub">Cumulative attainment · ${closed ? `${closed} stages closed` : 'awaiting first close'}</div><div class="life-bar" aria-label="Mission health ${percent(overall)}">${chunks}</div></div><div class="team-divider"></div><div class="product-title">PRODUCT CONTRIBUTION</div>${productRows}<div class="team-bottom"><div class="balance"><small>BALANCE INDEX</small><strong class="${closed ? '' : 'muted'}">${closed ? ratioPercent(balance.balance) : '—'}</strong></div><div class="sqo"><small>OVERALL ATTAINMENT</small><strong>${percent(overall)}</strong></div></div></article>`;
+      return `<article class="team-card ${team.id.toLowerCase()}"><div class="team-head"><div class="team-avatar" style="color:${team.color}">${logo}</div><div><div class="team-name">${team.name}</div><div class="team-code">TEAM ${team.id}</div></div><span class="stage-tag">STAGE ${String(stage).padStart(2, '0')}</span></div><div class="life-wrap"><div class="life-line"><span class="life-label">MISSION HEALTH</span><span class="life-val" style="color:${team.color}">${percent(overall)}</span></div><div class="life-sub">Cumulative attainment · ${closed ? closedLabel : 'awaiting first close'}</div><div class="life-bar" aria-label="Mission health ${percent(overall)}">${chunks}</div></div><div class="team-divider"></div><div class="product-title">PRODUCT CONTRIBUTION</div>${productRows}<div class="team-bottom"><div class="balance"><small>BALANCE INDEX</small><strong class="${closed ? '' : 'muted'}">${closed ? ratioPercent(balance.balance) : '—'}</strong></div><div class="sqo"><small>OVERALL ATTAINMENT</small><strong>${percent(overall)}</strong></div></div></article>`;
     }).join('');
   }
 
@@ -75,8 +76,8 @@
     $('#next-date').textContent = closed === 8 ? '31 DEC' : new Date(`${next.date}T12:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }).toUpperCase();
     $('#next-sub').textContent = closed === 8 ? 'Season complete' : `Stage ${String(next.number).padStart(2, '0')} · ${next.period}`;
     $('#data-label').textContent = scores?.testData
-      ? `TEST DATA · ${closed} STAGES CLOSED`
-      : closed ? `PUBLIC DATA · ${closed} STAGES CLOSED` : 'NO DATA · NO STAGES CLOSED';
+      ? `TEST DATA · ${closedLabel.toUpperCase()}`
+      : closed ? `PUBLIC DATA · ${closedLabel.toUpperCase()}` : 'NO DATA · NO STAGES CLOSED';
     $('#updated-label').textContent = scores?.updatedAt && !Number.isNaN(Date.parse(scores.updatedAt))
       ? `${scores?.testData ? 'Test data · ' : ''}Updated ${new Date(scores.updatedAt).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })}`
       : 'Awaiting first update';
