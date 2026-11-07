@@ -1,6 +1,7 @@
 /* Larger type and tighter spacing for the English dashboard. */
 .shell{max-width:1600px;padding:0 42px}
-.topbar{height:78px}
+.topbar{height:171px}
+.brand-logo{display:block;width:min(460px,43vw);height:auto}
 .brand strong{font-size:18px}
 .brand small{font-size:10px}
 .top-actions{font-size:11px}
@@ -50,5 +51,5 @@
 footer{margin-top:25px;padding:18px 0 25px;font-size:11px}
 dialog p,dialog label{font-size:13px}
 .entry-team label{font-size:12px}
-@media(max-width:900px){.shell{padding:0 24px}.team-card{display:grid}.team-head,.team-bottom{grid-column:span 2}.product-title{margin-top:20px}}
-@media(max-width:600px){.shell{padding:0 16px}.topbar{height:72px}.brand strong{font-size:14px}.brand small{font-size:8px}.button{font-size:11px;padding:9px 10px}.intro{display:block;padding:30px 0 26px}.intro h1{font-size:clamp(38px,10vw,52px)}.intro p{font-size:15px}.intro-side{width:auto;padding:16px 0 0;margin-top:20px}.section-heading h2,.ranking-card h2{font-size:22px}.stage-panel{padding:18px 16px}.team-card{display:block}.product-title{margin-top:0}.rule-card,.ranking-card{padding:20px}}
+@media(max-width:900px){.shell{padding:0 24px}.brand-logo{width:min(390px,65vw)}.team-card{display:grid}.team-head,.team-bottom{grid-column:span 2}.product-title{margin-top:20px}}
+@media(max-width:600px){.shell{padding:0 16px}.topbar{height:112px}.brand-logo{width:min(300px,calc(100vw - 80px))}.button{font-size:11px;padding:9px 10px}.intro{display:block;padding:30px 0 26px}.intro h1{font-size:clamp(38px,10vw,52px)}.intro p{font-size:15px}.intro-side{width:auto;padding:16px 0 0;margin-top:20px}.section-heading h2,.ranking-card h2{font-size:22px}.stage-panel{padding:18px 16px}.team-card{display:block}.product-title{margin-top:0}.rule-card,.ranking-card{padding:20px}}

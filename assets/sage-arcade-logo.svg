@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 160" role="img" aria-labelledby="title desc">
+  <title id="title">Sage Arcade</title>
+  <desc id="desc">Neon arcade marquee with a joystick and Mission Control 2026 subtitle.</desc>
+  <defs>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#152442"/>
+      <stop offset="1" stop-color="#0b1021"/>
+    </linearGradient>
+    <linearGradient id="arcade" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#b9f75f"/>
+      <stop offset="1" stop-color="#72e6d7"/>
+    </linearGradient>
+    <filter id="glow" x="-25%" y="-40%" width="150%" height="180%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="scan" width="6" height="6" patternUnits="userSpaceOnUse">
+      <path d="M0 5.5H6" stroke="#f4f8ff" stroke-opacity=".055" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <path d="M18 7H502L513 18V142L502 153H18L7 142V18Z" fill="url(#panel)" stroke="#324660" stroke-width="2"/>
+  <path d="M18 7H502M7 18V142M18 153H502" fill="none" stroke="#b9f75f" stroke-width="3"/>
+  <path d="M502 7L513 18V142L502 153" fill="none" stroke="#6cdaea" stroke-width="2"/>
+  <path d="M18 13H502M13 18V142M18 147H502" fill="none" stroke="#b9f75f" stroke-opacity=".22" stroke-width="7" filter="url(#glow)"/>
+  <path d="M18 7H502L513 18V142L502 153H18L7 142V18Z" fill="url(#scan)"/>
+
+  <g transform="translate(28 24)">
+    <path d="M9 0H82L94 12V96L82 108H9L0 99V9Z" fill="#101a32" stroke="#8ce9f2" stroke-width="2"/>
+    <path d="M14 12H78L83 17V61H9V17Z" fill="#0b1224" stroke="#b9f75f" stroke-width="2"/>
+    <path d="M16 54L34 33L45 43L63 24L78 39" fill="none" stroke="#b9f75f" stroke-width="4" stroke-linecap="square"/>
+    <path d="M18 20H27M66 50H75" stroke="#6cdaea" stroke-width="3"/>
+    <path d="M8 68H84L89 74V95H3V74Z" fill="#18233b" stroke="#6984a0" stroke-width="1.5"/>
+    <path d="M35 82V66" stroke="#f4f8ff" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="35" cy="64" r="7" fill="#b9f75f" stroke="#eaffc8" stroke-width="2"/>
+    <circle cx="61" cy="78" r="6" fill="#ff7bb6"/>
+    <circle cx="75" cy="84" r="5" fill="#6cdaea"/>
+    <path d="M15 100H78" stroke="#b9f75f" stroke-width="3"/>
+  </g>
+
+  <g font-family="Arial Black, Impact, Arial, sans-serif" font-weight="900" letter-spacing="2.5">
+    <text x="143" y="69" font-size="51" fill="#ff7bb6" opacity=".7">SAGE</text>
+    <text x="140" y="66" font-size="51" fill="#f3f7ff">SAGE</text>
+    <text x="143" y="120" font-size="51" fill="#147e98" opacity=".8">ARCADE</text>
+    <text x="140" y="117" font-size="51" fill="url(#arcade)">ARCADE</text>
+  </g>
+  <text x="143" y="138" fill="#aab7c9" font-family="Arial, sans-serif" font-size="10" font-weight="700" letter-spacing="3.1">MISSION CONTROL  /  2026</text>
+  <g fill="#b9f75f">
+    <rect x="468" y="31" width="7" height="7"/>
+    <rect x="480" y="31" width="7" height="7" opacity=".7"/>
+    <rect x="492" y="31" width="7" height="7" opacity=".35"/>
+  </g>
+</svg>

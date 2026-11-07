@@ -77,7 +77,7 @@ try {
   $calendar = Get-Sheet 'Calendar & Rules'
   $tracker = Get-Sheet 'SQO Tracker'
   $stage = [int](Get-Number $calendar 'B5' $true)
-  if ($stage -lt 1 -or $stage -gt 8) { throw 'Calendar & Rules!B5 must be a closed stage from 1 to 8.' }
+  if ($stage -lt 0 -or $stage -gt 8) { throw 'Calendar & Rules!B5 must be a stage from 0 to 8.' }
 
   $stageColumns = @(@('G'), @('H'), @('I'), @('J', 'K'), @('L'), @('M'), @('N'), @('O'))
   $activeColumns = @()
@@ -96,6 +96,11 @@ try {
     $product = $productNames[$sourceProduct]
     $bucket = $totals[$team][$product]
     $bucket.Target += (Get-Number $tracker "E$row") + (Get-Number $tracker "F$row")
+    if ($stage -eq 0) {
+      foreach ($column in @('G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O')) {
+        if ((Get-Number $tracker "$column$row") -ne 0) { throw "SQO entry in $column$row while B5 is 0." }
+      }
+    }
     foreach ($column in $activeColumns) { $bucket.SQO += Get-Number $tracker "$column$row" }
   }
 
