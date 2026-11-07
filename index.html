@@ -3,26 +3,35 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#080d1b">
-  <meta name="description" content="Public team progress for Sage Arcade 2026.">
-  <title>Sage Arcade 2026 · Public Scoreboard</title>
-  <link rel="stylesheet" href="assets/style.css">
+  <meta name="theme-color" content="#090d1b">
+  <meta name="description" content="Sage Arcade 2026: team progress across eight stages and balanced product attainment.">
+  <title>Sage Arcade 2026 · Mission Control</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/layout.css">
 </head>
 <body>
-  <main class="shell">
-    <nav class="top"><div class="brand"><b>●</b> SAGE ARCADE 2026</div><span class="subtle">PUBLIC SCOREBOARD</span></nav>
-    <section class="hero">
-      <div class="eyebrow">NOV — DEC 2026 / 8 STAGES</div>
-      <h1>The race for<br><em>balanced progress.</em></h1>
-      <p>Three teams, three product lines and eight weekly closes. Scores are updated manually after each validated close.</p>
-    </section>
-    <div class="rule"><h2>STAGE MAP</h2><span>Confirmed weekly progress</span></div>
-    <section class="stages" id="stages"></section>
-    <div class="rule"><h2>TEAM SCOREBOARD</h2><span>Overall and product attainment</span></div>
-    <section class="grid" id="cards" aria-live="polite"></section>
-    <footer class="foot"><span>Sage Arcade 2026 · Public team progress</span><span id="updated"></span></footer>
-  </main>
-  <script src="assets/data.js"></script>
-  <script src="assets/app.js"></script>
+  <div class="ambient"></div>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">S<span>•</span></span><div><strong>SAGE ARCADE</strong><small>MISSION CONTROL / 2026</small></div></div>
+      <div class="top-actions"><span class="status-dot"></span><span id="data-label">NO STAGES CLOSED</span></div>
+    </header>
+
+    <main>
+      <section class="intro">
+        <div><div class="eyebrow">NOV — DEC 2026 SEASON <span class="slash">/</span> 8 STAGES</div><h1>The race for<br><em>balanced progress.</em></h1><p>Each team moves forward when a week closes. Its health bar shows cumulative attainment; progress across all three products shapes the provisional ranking.</p></div>
+        <div class="intro-side"><div class="mini-label">NEXT CLOSE</div><div class="next-date" id="next-date">13 NOV</div><div class="next-sub" id="next-sub">Stage 01 · 1–13 Nov</div><div class="hairline"></div><div class="mini-label">TEAMS IN PLAY</div><div class="global-goal">3 <span>TEAMS</span></div><div class="next-sub">3 products · 8 stages</div></div>
+      </section>
+
+      <section class="stage-panel" aria-label="Eight-stage game map"><div class="section-heading"><div><span class="section-index">01 / THE COURSE</span><h2>Eight stages to the finish</h2></div><span class="section-note" id="stage-note">The first close is 13 November</span></div><div id="stage-map" class="stage-map"></div></section>
+
+      <section class="score-section"><div class="section-heading"><div><span class="section-index">02 / SCOREBOARD</span><h2>Teams in play</h2></div><div class="legend"><span><i class="legend-dot s50"></i>Sage 50 + Active</span><span><i class="legend-dot s200"></i>Sage 200</span><span><i class="legend-dot x3"></i>X3</span></div></div><div id="teams" class="team-grid"></div></section>
+
+      <section class="lower-grid"><div class="rule-card"><span class="section-index">03 / PROPOSED RULE</span><h2>Every product<br>has to move.</h2><p>To qualify for the final prize, each product must reach at least <strong>80%</strong> of its target. Among eligible teams, the highest <strong>geometric mean</strong> of the three attainment rates wins. Each rate is capped at 120% for this calculation.</p><div class="formula">BALANCE INDEX <span>∛ (S50 × S200 × X3)</span></div><p class="rule-foot">A product at zero makes the index zero. This rule still needs approval and does not yet decide the final prize.</p></div><div class="ranking-card"><div class="section-heading compact"><div><span class="section-index">04 / RANKING</span><h2 id="ranking-title">No results yet</h2></div></div><div id="ranking"></div><div class="ranking-foot" id="ranking-foot">Publish the first weekly close to see progress.</div></div></section>
+      <footer><span>Public team progress · Sage Arcade 2026</span><span id="updated-label">Awaiting first update</span></footer>
+    </main>
+  </div>
+
+  <script src="assets/data.js"></script><script src="assets/mission-control.js"></script>
 </body>
 </html>
