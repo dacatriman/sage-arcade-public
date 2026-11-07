@@ -82,9 +82,6 @@ try {
   $stageColumns = @(@('G'), @('H'), @('I'), @('J', 'K'), @('L'), @('M'), @('N'), @('O'))
   $activeColumns = @()
   for ($i = 0; $i -lt $stage; $i++) { $activeColumns += $stageColumns[$i] }
-  $calendarRow = 9 + $stage
-  $novShare = Get-Number $calendar "D$calendarRow" $true
-  $decShare = Get-Number $calendar "E$calendarRow" $true
   $productNames = @{ 'S50 + Active' = 'Sage 50 + Active'; S200 = 'Sage 200'; X3 = 'X3' }
   $totals = @{}
   foreach ($team in @('A', 'B', 'C')) {
@@ -98,24 +95,22 @@ try {
     if ($team -notin @('A', 'B', 'C') -or -not $productNames.ContainsKey($sourceProduct)) { continue }
     $product = $productNames[$sourceProduct]
     $bucket = $totals[$team][$product]
-    $bucket.Target += (Get-Number $tracker "E$row") * $novShare + (Get-Number $tracker "F$row") * $decShare
+    $bucket.Target += (Get-Number $tracker "E$row") + (Get-Number $tracker "F$row")
     foreach ($column in $activeColumns) { $bucket.SQO += Get-Number $tracker "$column$row" }
   }
 
   $teams = [ordered]@{}
   foreach ($team in @('A', 'B', 'C')) {
     $products = [ordered]@{}
-    $teamSQO = 0.0
-    $teamTarget = 0.0
     foreach ($product in @('Sage 50 + Active', 'Sage 200', 'X3')) {
       $bucket = $totals[$team][$product]
-      if ($bucket.Target -le 0) { throw "No cumulative target for team $team, $product" }
-      $products[$product] = [math]::Round(100 * $bucket.SQO / $bucket.Target, 2)
-      $teamSQO += $bucket.SQO
-      $teamTarget += $bucket.Target
+      if ($bucket.Target -le 0) { throw "No full-game target for team $team, $product" }
+      $products[$product] = [ordered]@{
+        actual = $bucket.SQO
+        target = $bucket.Target
+      }
     }
     $teams[$team] = [ordered]@{
-      overall = [math]::Round(100 * $teamSQO / $teamTarget, 2)
       products = $products
     }
   }

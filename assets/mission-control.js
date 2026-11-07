@@ -21,11 +21,26 @@
   const number = value => Number.isFinite(Number(value)) ? Math.max(0, Number(value)) : 0;
   const percent = value => `${number(value).toFixed(1).replace(/\.0$/, '')}%`;
   const ratioPercent = value => percent(value * 100);
+  const count = value => new Intl.NumberFormat('en-GB', { maximumFractionDigits: 2 }).format(number(value));
   const closed = Math.max(0, Math.min(8, Number.isInteger(scores?.closedStage) ? scores.closedStage : 0));
   const closedLabel = `${closed} ${closed === 1 ? 'stage' : 'stages'} closed`;
 
+  function productScore(teamId, product) {
+    const row = scores?.teams?.[teamId]?.products?.[product];
+    const actual = number(row?.actual);
+    const target = number(row?.target);
+    return { actual, target, ratio: target ? actual / target : 0 };
+  }
+
+  function teamScore(teamId) {
+    const rows = products.map(product => productScore(teamId, product));
+    const actual = rows.reduce((sum, row) => sum + row.actual, 0);
+    const target = rows.reduce((sum, row) => sum + row.target, 0);
+    return { actual, target, ratio: target ? actual / target : 0 };
+  }
+
   function metrics(team) {
-    const ratios = products.map(product => number(scores?.teams?.[team.id]?.products?.[product]) / 100);
+    const ratios = products.map(product => productScore(team.id, product).ratio);
     const balance = Math.cbrt(ratios.reduce((value, ratio) => value * Math.min(ratio, 1.2), 1));
     const good = ratios.filter(ratio => ratio >= .8).length;
     return { balance, good, eligible: good === 3 };
@@ -44,17 +59,17 @@
   function renderTeams() {
     const stage = Math.min(closed + 1, 8);
     $('#teams').innerHTML = teams.map(team => {
-      const row = scores?.teams?.[team.id] || { overall: 0, products: {} };
-      const overall = number(row.overall);
-      const filled = Math.min(overall / 100, 1);
+      const total = teamScore(team.id);
+      const overall = total.ratio * 100;
+      const filled = Math.min(total.ratio, 1);
       const chunks = Array.from({ length: 15 }, (_, index) => `<span class="${index / 15 < filled ? '' : 'empty'}" style="flex:1"></span>`).join('');
       const productRows = products.map(product => {
-        const value = number(row.products?.[product]);
-        return `<div class="product-row"><div class="product-meta"><span>${product}</span><strong style="color:${colors[product]}">${percent(value)}</strong></div><div class="track"><div class="fill" style="width:${Math.min(100, value)}%;background:${colors[product]}"></div></div></div>`;
+        const result = productScore(team.id, product);
+        return `<div class="product-row"><div class="product-meta"><span>${product}</span><strong style="color:${colors[product]}">${ratioPercent(result.ratio)}</strong></div><div class="product-count">${count(result.actual)} / ${count(result.target)} SQOs · 8-stage target</div><div class="track"><div class="fill" style="width:${Math.min(100, result.ratio * 100)}%;background:${colors[product]}"></div></div></div>`;
       }).join('');
       const balance = metrics(team);
       const logo = `<img src="${team.logo}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span style="display:none">${team.icon}</span>`;
-      return `<article class="team-card ${team.id.toLowerCase()}"><div class="team-head"><div class="team-avatar" style="color:${team.color}">${logo}</div><div><div class="team-name">${team.name}</div><div class="team-code">TEAM ${team.id}</div></div><span class="stage-tag">STAGE ${String(stage).padStart(2, '0')}</span></div><div class="life-wrap"><div class="life-line"><span class="life-label">MISSION HEALTH</span><span class="life-val" style="color:${team.color}">${percent(overall)}</span></div><div class="life-sub">Cumulative attainment · ${closed ? closedLabel : 'awaiting first close'}</div><div class="life-bar" aria-label="Mission health ${percent(overall)}">${chunks}</div></div><div class="team-divider"></div><div class="product-title">PRODUCT CONTRIBUTION</div>${productRows}<div class="team-bottom"><div class="balance"><small>BALANCE INDEX</small><strong class="${closed ? '' : 'muted'}">${closed ? ratioPercent(balance.balance) : '—'}</strong></div><div class="sqo"><small>OVERALL ATTAINMENT</small><strong>${percent(overall)}</strong></div></div></article>`;
+      return `<article class="team-card ${team.id.toLowerCase()}"><div class="team-head"><div class="team-avatar" style="color:${team.color}">${logo}</div><div><div class="team-name">${team.name}</div><div class="team-code">TEAM ${team.id}</div></div><span class="stage-tag">STAGE ${String(stage).padStart(2, '0')}</span></div><div class="life-wrap"><div class="life-line"><span class="life-label">MISSION HEALTH</span><span class="life-val" style="color:${team.color}">${percent(overall)}</span></div><div class="life-sub">${count(total.actual)} / ${count(total.target)} SQOs · 8-stage target · ${closed ? closedLabel : 'awaiting first close'}</div><div class="life-bar" aria-label="Mission health ${percent(overall)}">${chunks}</div></div><div class="team-divider"></div><div class="product-title">PRODUCT CONTRIBUTION</div>${productRows}<div class="team-bottom"><div class="balance"><small>BALANCE INDEX</small><strong class="${closed ? '' : 'muted'}">${closed ? ratioPercent(balance.balance) : '—'}</strong></div><div class="sqo"><small>OVERALL ATTAINMENT</small><strong>${percent(overall)}</strong></div></div></article>`;
     }).join('');
   }
 
@@ -66,8 +81,8 @@
       return;
     }
     const ranked = teams.map(team => ({ ...team, ...metrics(team) })).sort((a, b) => Number(b.eligible) - Number(a.eligible) || b.balance - a.balance);
-    $('#ranking-title').textContent = closed === 8 ? 'Result under proposed rule' : 'Provisional pace';
-    $('#ranking').innerHTML = ranked.map((team, index) => `<div class="rank-row"><div class="rank-num">0${index + 1}</div><div class="rank-name" style="color:${team.color}">${team.name}<div class="rank-detail">${team.good}/3 products at 80% of target ${team.eligible ? '· eligible' : '· not yet eligible'}</div></div><div class="rank-value">${ratioPercent(team.balance)}</div></div>`).join('');
+    $('#ranking-title').textContent = closed === 8 ? 'Result under proposed rule' : 'Progress to final target';
+    $('#ranking').innerHTML = ranked.map((team, index) => `<div class="rank-row"><div class="rank-num">0${index + 1}</div><div class="rank-name" style="color:${team.color}">${team.name}<div class="rank-detail">${team.good}/3 products at 80% of full target ${team.eligible ? '· eligible' : '· not yet eligible'}</div></div><div class="rank-value">${ratioPercent(team.balance)}</div></div>`).join('');
     $('#ranking-foot').textContent = 'This is a provisional comparison. The final prize rule still needs approval.';
   }
 

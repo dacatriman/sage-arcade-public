@@ -1,30 +1,54 @@
 window.ARCADE_SCORES = {
   "closedStage": 1,
   "testData": true,
-  "updatedAt": "2026-11-07T14:27:19+01:00",
+  "updatedAt": "2026-11-07T14:40:13+01:00",
   "teams": {
     "A": {
-      "overall": 55.76,
       "products": {
-        "Sage 50 + Active": 40.32,
-        "Sage 200": 154.41,
-        "X3": 140.0
+        "Sage 50 + Active": {
+          "actual": 48.0,
+          "target": 423.0
+        },
+        "Sage 200": {
+          "actual": 25.0,
+          "target": 63.0
+        },
+        "X3": {
+          "actual": 4.0,
+          "target": 10.0
+        }
       }
     },
     "B": {
-      "overall": 60.1,
       "products": {
-        "Sage 50 + Active": 46.32,
-        "Sage 200": 160.59,
-        "X3": 126.0
+        "Sage 50 + Active": {
+          "actual": 60.0,
+          "target": 450.0
+        },
+        "Sage 200": {
+          "actual": 26.0,
+          "target": 55.0
+        },
+        "X3": {
+          "actual": 3.0,
+          "target": 9.0
+        }
       }
     },
     "C": {
-      "overall": 91.03,
       "products": {
-        "Sage 50 + Active": 67.65,
-        "Sage 200": 157.5,
-        "X3": 140.0
+        "Sage 50 + Active": {
+          "actual": 48.0,
+          "target": 346.0
+        },
+        "Sage 200": {
+          "actual": 36.0,
+          "target": 132.0
+        },
+        "X3": {
+          "actual": 4.0,
+          "target": 11.0
+        }
       }
     }
   }

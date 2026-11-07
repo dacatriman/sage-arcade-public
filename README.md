@@ -1,6 +1,6 @@
 # Sage Arcade 2026 · página pública
 
-Esta carpeta contiene el diseño de Mission Control adaptado a GitHub Pages. Muestra porcentajes acumulados por equipo y producto, las ocho etapas y el ranking provisional. No contiene nombres individuales, objetivos SQO ni el libro Excel.
+Esta carpeta contiene el diseño de Mission Control adaptado a GitHub Pages. Muestra SQO acumulados, objetivos totales y porcentajes de avance por equipo y producto frente a las ocho etapas completas. No contiene nombres individuales ni el libro Excel.
 
 ## Archivos que hay que subir
 
@@ -38,7 +38,7 @@ No subas la carpeta completa `ARCADE GAME`, los libros Excel ni el Site privado.
 
 1. Después de validar el cierre, abre `assets/data.js` en el repositorio de GitHub y pulsa el icono del lápiz (**Edit this file**).
 2. Cambia `closedStage` al número de la última etapa cerrada: `0` antes del primer cierre y `1` a `8` después.
-3. Cambia `overall` y los tres valores de `products` para cada equipo. Son **porcentajes acumulados**; escribe `82.5` para 82,5 %. Se permiten cifras superiores a 100. Los códigos son `A` = Pixel Outlaws, `B` = The Final Credits y `C` = Glitch Raiders.
+3. En cada producto, cambia `actual` por los SQO acumulados y `target` por el objetivo total de noviembre y diciembre. La página calcula los porcentajes y el total del equipo. Los códigos son `A` = Pixel Outlaws, `B` = The Final Credits y `C` = Glitch Raiders.
 4. Cambia `updatedAt` por la fecha y hora del cambio, en formato ISO, por ejemplo `"2026-11-13T17:00:00+01:00"`.
 5. Pulsa **Commit changes**. GitHub Pages publicará el nuevo marcador desde ese commit. Recarga la página pública cuando termine el despliegue.
 
@@ -46,7 +46,7 @@ Si editas el archivo a mano, conserva las llaves, comas y nombres de producto. U
 
 ## Actualizar desde el Excel maestro
 
-El script `tools/Sync-ExcelScores.ps1` lee `Calendar & Rules!B5` y los SQO de `SQO Tracker`, suma por equipo y producto, y calcula el porcentaje frente al objetivo acumulado al cierre. Solo escribe agregados en `assets/data.js`; no publica nombres ni objetivos individuales. Requiere que `B5` sea una semana cerrada entre 1 y 8.
+El script `tools/Sync-ExcelScores.ps1` lee `Calendar & Rules!B5` y los SQO de `SQO Tracker` hasta esa etapa, suma por equipo y producto, y copia el objetivo total de noviembre y diciembre. La página calcula `SQO acumulados ÷ objetivo total` en cada actualización. Solo escribe agregados en `assets/data.js`; no publica nombres ni objetivos individuales. Requiere que `B5` sea una semana cerrada entre 1 y 8.
 
 Desde la raíz del repositorio, con PowerShell 7:
 

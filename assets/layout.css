@@ -34,6 +34,8 @@
 .product-row{margin:11px 0}
 .product-meta{font-size:13px}
 .product-meta strong{font-size:14px}
+.product-count{color:#8994ab;font-size:11px;margin-top:4px}
+.product-count+.track{margin-top:7px}
 .team-bottom{margin-top:15px;padding-top:13px}
 .team-bottom small{font-size:10px}
 .lower-grid{margin-top:24px}
