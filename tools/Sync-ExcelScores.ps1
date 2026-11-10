@@ -1,7 +1,8 @@
 param(
   [Parameter(Mandatory = $true)][string]$WorkbookPath,
   [string]$OutputPath = 'assets/data.js',
-  [switch]$TestData
+  [switch]$TestData,
+  [switch]$Provisional
 )
 
 Set-StrictMode -Version Latest
@@ -78,6 +79,7 @@ try {
   $tracker = Get-Sheet 'SQO Tracker'
   $stage = [int](Get-Number $calendar 'B5' $true)
   if ($stage -lt 0 -or $stage -gt 8) { throw 'Calendar & Rules!B5 must be a stage from 0 to 8.' }
+  if ($Provisional -and $stage -ne 1) { throw '-Provisional is supported for stage 1 only.' }
 
   $stageColumns = @(@('G'), @('H'), @('I'), @('J', 'K'), @('L'), @('M'), @('N'), @('O'))
   $activeColumns = @()
@@ -121,7 +123,7 @@ try {
   }
 
   $scores = [ordered]@{
-    closedStage = $stage
+    closedStage = $(if ($Provisional) { 0 } else { $stage })
     testData = [bool]$TestData
     updatedAt = (Get-Date).ToString('yyyy-MM-ddTHH:mm:sszzz')
     teams = $teams
@@ -133,7 +135,7 @@ try {
   if (Test-Path -LiteralPath $indexPath) {
     $index = [IO.File]::ReadAllText($indexPath)
     $version = (Get-Date).ToString('yyyyMMddHHmmss')
-    $index = [regex]::Replace($index, 'assets/data\.js(?:\?v=[0-9]+)?', "assets/data.js?v=$version")
+    $index = [regex]::Replace($index, 'assets/data\.js(?:\?v=[^"''\s>]+)?', "assets/data.js?v=$version")
     [IO.File]::WriteAllText($indexPath, $index, [Text.UTF8Encoding]::new($false))
   }
   Write-Output "Wrote $destination from $workbook (stage $stage, test data: $([bool]$TestData))."
