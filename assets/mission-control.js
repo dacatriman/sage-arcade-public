@@ -53,7 +53,7 @@
       const date = new Date(`${week.date}T12:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }).toUpperCase();
       return `<div class="stage ${done ? 'done' : ''} ${active && !done ? 'active' : ''}"><div class="stage-top"><span>STAGE</span><span>${done ? '✓' : active ? '●' : '○'}</span></div><div class="stage-num">${String(week.number).padStart(2, '0')}</div><div class="stage-date">${date}</div><div class="stage-icons">${teams.map(team => `<i style="background:${done || active ? team.color : '#3a455c'}"></i>`).join('')}</div></div>`;
     }).join('');
-    $('#stage-note').textContent = closed ? `${closed} of 8 stages closed` : 'The first close is 13 November';
+    $('#stage-note').textContent = closed ? `${closed} of 8 stages closed` : 'Stage 1 in progress · closes 13 November';
   }
 
   function renderTeams() {
@@ -69,15 +69,15 @@
       }).join('');
       const balance = metrics(team);
       const logo = `<img src="${team.logo}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span style="display:none">${team.icon}</span>`;
-      return `<article class="team-card ${team.id.toLowerCase()}"><div class="team-head"><div class="team-avatar" style="color:${team.color}">${logo}</div><div><div class="team-name">${team.name}</div><div class="team-code">TEAM ${team.id}</div></div><span class="stage-tag">STAGE ${String(stage).padStart(2, '0')}</span></div><div class="life-wrap"><div class="life-line"><span class="life-label">MISSION HEALTH</span><span class="life-val" style="color:${team.color}">${percent(overall)}</span></div><div class="life-sub">${count(total.actual)} / ${count(total.target)} SQOs · 8-stage target · ${closed ? closedLabel : 'awaiting first close'}</div><div class="life-bar" aria-label="Mission health ${percent(overall)}">${chunks}</div></div><div class="team-divider"></div><div class="product-title">PRODUCT CONTRIBUTION</div>${productRows}<div class="team-bottom"><div class="balance"><small>BALANCE INDEX</small><strong class="${closed ? '' : 'muted'}">${closed ? ratioPercent(balance.balance) : '—'}</strong></div><div class="sqo"><small>OVERALL ATTAINMENT</small><strong>${percent(overall)}</strong></div></div></article>`;
+      return `<article class="team-card ${team.id.toLowerCase()}"><div class="team-head"><div class="team-avatar" style="color:${team.color}">${logo}</div><div><div class="team-name">${team.name}</div><div class="team-code">TEAM ${team.id}</div></div><span class="stage-tag">STAGE ${String(stage).padStart(2, '0')}</span></div><div class="life-wrap"><div class="life-line"><span class="life-label">MISSION HEALTH</span><span class="life-val" style="color:${team.color}">${percent(overall)}</span></div><div class="life-sub">${count(total.actual)} / ${count(total.target)} SQOs · 8-stage target · ${closed ? closedLabel : 'provisional, stage 1 open'}</div><div class="life-bar" aria-label="Mission health ${percent(overall)}">${chunks}</div></div><div class="team-divider"></div><div class="product-title">PRODUCT CONTRIBUTION</div>${productRows}<div class="team-bottom"><div class="balance"><small>BALANCE INDEX</small><strong class="${closed ? '' : 'muted'}">${closed ? ratioPercent(balance.balance) : '—'}</strong></div><div class="sqo"><small>OVERALL ATTAINMENT</small><strong>${percent(overall)}</strong></div></div></article>`;
     }).join('');
   }
 
   function renderRanking() {
     if (!closed) {
-      $('#ranking-title').textContent = 'No results yet';
+      $('#ranking-title').textContent = 'No closed stage yet';
       $('#ranking').innerHTML = teams.map((team, index) => `<div class="rank-row"><div class="rank-num">0${index + 1}</div><div class="rank-name" style="color:${team.color}">${team.name}<div class="rank-detail">Waiting for the first close</div></div><div class="rank-value">—</div></div>`).join('');
-      $('#ranking-foot').textContent = 'Publish the first weekly close to see progress.';
+      $('#ranking-foot').textContent = 'Provisional SQOs appear above. Ranking starts after the first close.';
       return;
     }
     const ranked = teams.map(team => ({ ...team, ...metrics(team) })).sort((a, b) => Number(b.eligible) - Number(a.eligible) || b.balance - a.balance);
@@ -92,9 +92,9 @@
     $('#next-sub').textContent = closed === 8 ? 'Season complete' : `Stage ${String(next.number).padStart(2, '0')} · ${next.period}`;
     $('#data-label').textContent = scores?.testData
       ? `TEST DATA · ${closedLabel.toUpperCase()}`
-      : closed ? `PUBLIC DATA · ${closedLabel.toUpperCase()}` : 'NO DATA · NO STAGES CLOSED';
+      : closed ? `PUBLIC DATA · ${closedLabel.toUpperCase()}` : 'PROVISIONAL DATA · STAGE 1 OPEN';
     $('#updated-label').textContent = scores?.updatedAt && !Number.isNaN(Date.parse(scores.updatedAt))
-      ? `${scores?.testData ? 'Test data · ' : ''}Updated ${new Date(scores.updatedAt).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })}`
+      ? `${scores?.testData ? 'Test data · ' : closed ? '' : 'Provisional · '}Updated ${new Date(scores.updatedAt).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })}`
       : 'Awaiting first update';
   }
 
