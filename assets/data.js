@@ -1,16 +1,16 @@
 window.ARCADE_SCORES = {
-  "closedStage": 0,
+  "closedStage": 1,
   "testData": false,
-  "updatedAt": "2026-11-10T09:27:45+01:00",
+  "updatedAt": "2026-11-14T19:14:30+01:00",
   "teams": {
     "A": {
       "products": {
         "Sage 50 + Active": {
-          "actual": 43.0,
+          "actual": 74.0,
           "target": 423.0
         },
         "Sage 200": {
-          "actual": 10.0,
+          "actual": 15.0,
           "target": 63.0
         },
         "X3": {
@@ -22,11 +22,11 @@ window.ARCADE_SCORES = {
     "B": {
       "products": {
         "Sage 50 + Active": {
-          "actual": 45.0,
+          "actual": 60.0,
           "target": 450.0
         },
         "Sage 200": {
-          "actual": 3.0,
+          "actual": 8.0,
           "target": 55.0
         },
         "X3": {
@@ -38,11 +38,11 @@ window.ARCADE_SCORES = {
     "C": {
       "products": {
         "Sage 50 + Active": {
-          "actual": 27.0,
+          "actual": 33.0,
           "target": 346.0
         },
         "Sage 200": {
-          "actual": 7.0,
+          "actual": 13.0,
           "target": 132.0
         },
         "X3": {
