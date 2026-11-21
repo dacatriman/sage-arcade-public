@@ -1,8 +1,8 @@
 window.ARCADE_SCORES = {
-  "closedStage": 1,
-  "provisional": true,
+  "closedStage": 2,
+  "provisional": false,
   "testData": false,
-  "updatedAt": "2026-11-21T19:06:13+01:00",
+  "updatedAt": "2026-11-21T19:17:51+01:00",
   "teams": {
     "A": {
       "products": {

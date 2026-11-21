@@ -2,7 +2,8 @@ param(
   [Parameter(Mandatory = $true)][string]$WorkbookPath,
   [string]$OutputPath = 'assets/data.js',
   [switch]$TestData,
-  [switch]$Provisional
+  [switch]$Provisional,
+  [ValidateRange(0, 8)][int]$MinimumClosedStage = 0
 )
 
 Set-StrictMode -Version Latest
@@ -77,8 +78,9 @@ try {
 
   $calendar = Get-Sheet 'Calendar & Rules'
   $tracker = Get-Sheet 'SQO Tracker'
-  $stage = [int](Get-Number $calendar 'B5' $true)
-  if ($stage -lt 0 -or $stage -gt 8) { throw 'Calendar & Rules!B5 must be a stage from 0 to 8.' }
+  $workbookStage = [int](Get-Number $calendar 'B5' $true)
+  if ($workbookStage -lt 0 -or $workbookStage -gt 8) { throw 'Calendar & Rules!B5 must be a stage from 0 to 8.' }
+  $stage = [Math]::Max($workbookStage, $MinimumClosedStage)
   if ($Provisional -and $stage -ne 1) { throw '-Provisional is supported for stage 1 only.' }
 
   $stageColumns = @(@('G'), @('H'), @('I'), @('J', 'K'), @('L'), @('M'), @('N'), @('O'))
@@ -109,7 +111,7 @@ try {
     $bucket.Target += (Get-Number $tracker "E$row") + (Get-Number $tracker "F$row")
     if ($stage -eq 0) {
       foreach ($column in @('G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O')) {
-        if ((Get-Number $tracker "$column$row") -ne 0) { throw "SQO entry in $column$row while B5 is 0." }
+        if ((Get-Number $tracker "$column$row") -ne 0) { throw "SQO entry in $column$row while no stage is closed." }
       }
     }
     foreach ($column in $activeColumns) { $bucket.SQO += Get-Number $tracker "$column$row" }

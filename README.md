@@ -47,12 +47,12 @@ Si editas el archivo a mano, conserva las llaves, comas y nombres de producto. U
 
 ## Actualizar desde el Excel maestro
 
-El script `tools/Sync-ExcelScores.ps1` lee `Calendar & Rules!B5` como última etapa cerrada y suma los SQO de `SQO Tracker` por equipo y producto. Si la etapa siguiente ya contiene SQO, los incluye como avance provisional sin marcarla como cerrada. Copia el objetivo total de noviembre y diciembre y la página calcula `SQO acumulados ÷ objetivo total`. Solo escribe agregados en `assets/data.js`; no publica nombres ni objetivos individuales. `B5 = 0` restablece el marcador cuando no quedan SQO en el libro; los cierres usan valores de 1 a 8.
+El script `tools/Sync-ExcelScores.ps1` lee `Calendar & Rules!B5` como última etapa cerrada y suma los SQO de `SQO Tracker` por equipo y producto. Si la etapa siguiente ya contiene SQO, los incluye como avance provisional sin marcarla como cerrada. `-MinimumClosedStage 2` registra el cierre de la etapa 2 confirmado para ambos Sites aunque el libro guardado aún marque 1; siempre prevalece una etapa posterior marcada en el Excel. Copia el objetivo total de noviembre y diciembre y la página calcula `SQO acumulados ÷ objetivo total`. Solo escribe agregados en `assets/data.js`; no publica nombres ni objetivos individuales. `B5 = 0` restablece el marcador cuando no quedan SQO en el libro; los cierres usan valores de 1 a 8.
 
 Desde la raíz del repositorio, con PowerShell 7:
 
 ```powershell
-pwsh -NoProfile -File tools/Sync-ExcelScores.ps1 -WorkbookPath 'C:\ruta\Sage_Arcade_2026_Master.xlsx' -OutputPath 'assets/data.js'
+pwsh -NoProfile -File tools/Sync-ExcelScores.ps1 -WorkbookPath 'C:\ruta\Sage_Arcade_2026_Master.xlsx' -OutputPath 'assets/data.js' -MinimumClosedStage 2
 ```
 
 Para una prueba con cifras ficticias, añade `-TestData`. Si el Excel ya registra SQO en la etapa 1 antes de su fecha de cierre, añade `-Provisional`: publica las cifras y mantiene la etapa abierta. La página mostrará **TEST DATA** o **PROVISIONAL DATA**, según corresponda. El script actualiza `assets/data.js` y la versión de ese archivo en `index.html` para evitar datos antiguos en la caché del navegador. Después de revisar ambos archivos, haz commit y push a `main`; GitHub Pages publicará el cambio. El Excel permanece local, por lo que GitHub Pages no puede leer sus cambios directamente.
