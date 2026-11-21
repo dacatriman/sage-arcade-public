@@ -47,7 +47,7 @@ Si editas el archivo a mano, conserva las llaves, comas y nombres de producto. U
 
 ## Actualizar desde el Excel maestro
 
-El script `tools/Sync-ExcelScores.ps1` lee `Calendar & Rules!B5` y los SQO de `SQO Tracker` hasta esa etapa, suma por equipo y producto, y copia el objetivo total de noviembre y diciembre. La página calcula `SQO acumulados ÷ objetivo total` en cada actualización. Solo escribe agregados en `assets/data.js`; no publica nombres ni objetivos individuales. `B5 = 0` restablece el marcador cuando no quedan SQO en el libro; los cierres usan valores de 1 a 8.
+El script `tools/Sync-ExcelScores.ps1` lee `Calendar & Rules!B5` como última etapa cerrada y suma los SQO de `SQO Tracker` por equipo y producto. Si la etapa siguiente ya contiene SQO, los incluye como avance provisional sin marcarla como cerrada. Copia el objetivo total de noviembre y diciembre y la página calcula `SQO acumulados ÷ objetivo total`. Solo escribe agregados en `assets/data.js`; no publica nombres ni objetivos individuales. `B5 = 0` restablece el marcador cuando no quedan SQO en el libro; los cierres usan valores de 1 a 8.
 
 Desde la raíz del repositorio, con PowerShell 7:
 

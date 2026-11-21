@@ -84,6 +84,15 @@ try {
   $stageColumns = @(@('G'), @('H'), @('I'), @('J', 'K'), @('L'), @('M'), @('N'), @('O'))
   $activeColumns = @()
   for ($i = 0; $i -lt $stage; $i++) { $activeColumns += $stageColumns[$i] }
+  $hasOpenStageData = $false
+  if (-not $Provisional -and $stage -lt 8) {
+    foreach ($row in 5..70) {
+      foreach ($column in @($stageColumns[$stage])) {
+        if ((Get-Number $tracker "$column$row") -gt 0) { $hasOpenStageData = $true }
+      }
+    }
+    if ($hasOpenStageData) { $activeColumns += $stageColumns[$stage] }
+  }
   $productNames = @{ 'S50 + Active' = 'Sage 50 + Active'; S200 = 'Sage 200'; X3 = 'X3' }
   $totals = @{}
   foreach ($team in @('A', 'B', 'C')) {
@@ -124,6 +133,7 @@ try {
 
   $scores = [ordered]@{
     closedStage = $(if ($Provisional) { 0 } else { $stage })
+    provisional = [bool]($Provisional -or $hasOpenStageData)
     testData = [bool]$TestData
     updatedAt = (Get-Date).ToString('yyyy-MM-ddTHH:mm:sszzz')
     teams = $teams
@@ -138,7 +148,7 @@ try {
     $index = [regex]::Replace($index, 'assets/data\.js(?:\?v=[^"''\s>]+)?', "assets/data.js?v=$version")
     [IO.File]::WriteAllText($indexPath, $index, [Text.UTF8Encoding]::new($false))
   }
-  Write-Output "Wrote $destination from $workbook (stage $stage, test data: $([bool]$TestData))."
+  Write-Output "Wrote $destination from $workbook (closed stage $($scores.closedStage), provisional: $($scores.provisional))."
 } finally {
   $zip.Dispose()
   $stream.Dispose()
