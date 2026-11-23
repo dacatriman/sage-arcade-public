@@ -2,12 +2,66 @@ window.ARCADE_SCORES = {
   "closedStage": 2,
   "provisional": false,
   "testData": false,
-  "updatedAt": "2026-11-21T19:17:51+01:00",
+  "updatedAt": "2026-11-23T17:06:08+01:00",
+  "mqlMarkets": {
+    "Spain": {
+      "Sage 50": {
+        "novTarget": 1154.0,
+        "novDelivered": 716.0,
+        "decTarget": 741.0,
+        "decDelivered": null
+      },
+      "Sage Active": {
+        "novTarget": null,
+        "novDelivered": null,
+        "decTarget": null,
+        "decDelivered": null
+      },
+      "Sage 200": {
+        "novTarget": 480.0,
+        "novDelivered": 251.0,
+        "decTarget": 354.0,
+        "decDelivered": null
+      },
+      "Sage X3": {
+        "novTarget": 60.0,
+        "novDelivered": 20.0,
+        "decTarget": 33.0,
+        "decDelivered": null
+      }
+    },
+    "Portugal": {
+      "Sage 50": {
+        "novTarget": 143.0,
+        "novDelivered": 122.0,
+        "decTarget": 190.0,
+        "decDelivered": null
+      },
+      "Sage Active": {
+        "novTarget": null,
+        "novDelivered": null,
+        "decTarget": null,
+        "decDelivered": null
+      },
+      "Sage 200": {
+        "novTarget": null,
+        "novDelivered": null,
+        "decTarget": null,
+        "decDelivered": null
+      },
+      "Sage X3": {
+        "novTarget": 64.0,
+        "novDelivered": 93.0,
+        "decTarget": 44.0,
+        "decDelivered": null
+      }
+    }
+  },
   "teams": {
     "A": {
       "products": {
         "Sage 50 + Active": {
-          "actual": 134.0,
+          "actual": 138.0,
           "target": 423.0
         },
         "Sage 200": {
@@ -23,7 +77,7 @@ window.ARCADE_SCORES = {
     "B": {
       "products": {
         "Sage 50 + Active": {
-          "actual": 127.0,
+          "actual": 133.0,
           "target": 450.0
         },
         "Sage 200": {
@@ -39,7 +93,7 @@ window.ARCADE_SCORES = {
     "C": {
       "products": {
         "Sage 50 + Active": {
-          "actual": 67.0,
+          "actual": 75.0,
           "target": 346.0
         },
         "Sage 200": {

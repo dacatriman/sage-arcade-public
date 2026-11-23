@@ -7,7 +7,7 @@
   <meta name="description" content="Sage Arcade 2026: team progress across eight stages and balanced product attainment.">
   <title>Sage Arcade 2026 · Mission Control</title>
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/layout.css?v=20261107logo">
+  <link rel="stylesheet" href="assets/layout.css?v=20261123markets">
 </head>
 <body>
   <div class="ambient"></div>
@@ -27,11 +27,13 @@
 
       <section class="score-section"><div class="section-heading"><div><span class="section-index">02 / SCOREBOARD</span><h2>Teams in play</h2></div><div class="legend"><span><i class="legend-dot s50"></i>Sage 50 + Active</span><span><i class="legend-dot s200"></i>Sage 200</span><span><i class="legend-dot x3"></i>X3</span></div></div><div id="teams" class="team-grid"></div></section>
 
+      <section class="market-section" aria-label="Marketing MQL supply by market"><div class="section-heading"><div><span class="section-index">MARKETING / MQL SUPPLY</span><h2>MQLs by market</h2></div><span class="section-note">Marketing deliveries · separate from SQO ranking</span></div><div id="mql-markets" class="market-grid"></div><p class="market-note">Only deliveries entered in the Excel master appear here. Products with neither a target nor a delivery are omitted.</p></section>
+
       <section class="lower-grid"><div class="rule-card"><span class="section-index">03 / PROPOSED RULE</span><h2>Every product<br>has to move.</h2><p>To qualify for the final prize, each product must reach at least <strong>80%</strong> of its target. Among eligible teams, the highest <strong>geometric mean</strong> of the three attainment rates wins. Each rate is capped at 120% for this calculation.</p><div class="formula">BALANCE INDEX <span>∛ (S50 × S200 × X3)</span></div><p class="rule-foot">A product at zero makes the index zero. This rule still needs approval and does not yet decide the final prize.</p></div><div class="ranking-card"><div class="section-heading compact"><div><span class="section-index">04 / RANKING</span><h2 id="ranking-title">No results yet</h2></div></div><div id="ranking"></div><div class="ranking-foot" id="ranking-foot">Publish the first weekly close to see progress.</div></div></section>
       <footer><span>Public team progress · Sage Arcade 2026</span><span id="updated-label">Awaiting first update</span></footer>
     </main>
   </div>
 
-  <script src="assets/data.js?v=20261121191751"></script><script src="assets/mission-control.js?v=20261110provisional"></script>
+  <script src="assets/data.js?v=20261123170608"></script><script src="assets/mission-control.js?v=20261123markets"></script>
 </body>
 </html>

@@ -76,6 +76,38 @@ try {
     return $result
   }
 
+  function Get-MarketNumber($sheet, [string]$address) {
+    $raw = Get-Value $sheet $address
+    if ($null -eq $raw -or $raw -eq '' -or $raw -eq 'Sin target') { return $null }
+    $result = 0.0
+    if (-not [double]::TryParse([string]$raw, [Globalization.NumberStyles]::Float, [Globalization.CultureInfo]::InvariantCulture, [ref]$result) -or $result -lt 0) {
+      throw "Invalid MQL value in $address"
+    }
+    return $result
+  }
+
+  function Read-MqlMarkets {
+    $sheet = Get-Sheet 'MQL por mercado'
+    $markets = [ordered]@{}
+    foreach ($spec in @(@{ Name = 'Spain'; First = 7 }, @{ Name = 'Portugal'; First = 11 })) {
+      $rows = [ordered]@{}
+      for ($row = $spec.First; $row -le $spec.First + 3; $row++) {
+        $country = Get-Value $sheet "A$row"
+        if (($spec.Name -eq 'Spain' -and $country -ne 'España') -or ($spec.Name -eq 'Portugal' -and $country -ne 'Portugal')) { throw "Unexpected market in MQL por mercado row $row" }
+        $product = Get-Value $sheet "B$row"
+        if ($product -notin @('Sage 50', 'Sage Active', 'Sage 200', 'Sage X3') -or $rows.Contains($product)) { throw "Unexpected product in MQL por mercado row $row" }
+        $rows[$product] = [ordered]@{
+          novTarget = Get-MarketNumber $sheet "C$row"
+          novDelivered = Get-MarketNumber $sheet "E$row"
+          decTarget = Get-MarketNumber $sheet "H$row"
+          decDelivered = Get-MarketNumber $sheet "J$row"
+        }
+      }
+      $markets[$spec.Name] = $rows
+    }
+    return $markets
+  }
+
   $calendar = Get-Sheet 'Calendar & Rules'
   $tracker = Get-Sheet 'SQO Tracker'
   $workbookStage = [int](Get-Number $calendar 'B5' $true)
@@ -138,6 +170,7 @@ try {
     provisional = [bool]($Provisional -or $hasOpenStageData)
     testData = [bool]$TestData
     updatedAt = (Get-Date).ToString('yyyy-MM-ddTHH:mm:sszzz')
+    mqlMarkets = Read-MqlMarkets
     teams = $teams
   }
   $json = ConvertTo-Json -InputObject $scores -Depth 6

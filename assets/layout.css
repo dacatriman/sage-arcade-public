@@ -53,3 +53,17 @@ dialog p,dialog label{font-size:13px}
 .entry-team label{font-size:12px}
 @media(max-width:900px){.shell{padding:0 24px}.brand-logo{width:min(390px,65vw)}.team-card{display:grid}.team-head,.team-bottom{grid-column:span 2}.product-title{margin-top:20px}}
 @media(max-width:600px){.shell{padding:0 16px}.topbar{height:112px}.brand-logo{width:min(300px,calc(100vw - 80px))}.button{font-size:11px;padding:9px 10px}.intro{display:block;padding:30px 0 26px}.intro h1{font-size:clamp(38px,10vw,52px)}.intro p{font-size:15px}.intro-side{width:auto;padding:16px 0 0;margin-top:20px}.section-heading h2,.ranking-card h2{font-size:22px}.stage-panel{padding:18px 16px}.team-card{display:block}.product-title{margin-top:0}.rule-card,.ranking-card{padding:20px}}
+.market-section{margin-top:32px}
+.market-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:17px}
+.market-card{border:1px solid var(--line);border-top:3px solid var(--green);border-radius:8px;background:#11182b;padding:21px 24px}
+.market-card h3{font:700 21px 'Space Grotesk';margin:0 0 17px}
+.market-month+.market-month{border-top:1px solid var(--line);margin-top:19px;padding-top:19px}
+.market-month-head{display:flex;align-items:baseline;flex-wrap:wrap;gap:8px 16px;margin-bottom:12px}
+.market-month-head span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700}
+.market-month-head strong{font:700 20px 'Space Grotesk'}
+.market-month-head b{font:700 18px 'Space Grotesk';color:var(--green);margin-left:auto}
+.market-product{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #ffffff12;padding:9px 0;font-size:12px}
+.market-product span:last-child{color:#c0cadd;text-align:right}
+.market-note,.market-empty{color:var(--muted);font-size:11px;line-height:1.5}
+.market-note{margin:10px 0 0}
+@media(max-width:700px){.market-grid{grid-template-columns:1fr}.market-card{padding:18px}.market-month-head strong{font-size:18px}}

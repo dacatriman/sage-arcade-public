@@ -89,6 +89,26 @@
     $('#ranking-foot').textContent = 'This is a provisional comparison. The final prize rule still needs approval.';
   }
 
+  function renderMarkets() {
+    const marketData = scores?.mqlMarkets ?? {};
+    $('#mql-markets').innerHTML = ['Spain', 'Portugal'].map(market => {
+      const rows = marketData[market] ?? {};
+      const months = [['nov', 'November'], ['dec', 'December']].map(([key, label]) => {
+        const products = Object.entries(rows).filter(([, row]) => row?.[`${key}Target`] != null || row?.[`${key}Delivered`] != null);
+        if (!products.some(([, row]) => row?.[`${key}Delivered`] != null)) return '';
+        const delivered = products.reduce((sum, [, row]) => sum + number(row[`${key}Delivered`]), 0);
+        const target = products.reduce((sum, [, row]) => sum + number(row[`${key}Target`]), 0);
+        const productRows = products.map(([product, row]) => {
+          const actual = row[`${key}Delivered`];
+          const goal = row[`${key}Target`];
+          return `<div class="market-product"><span>${product}</span><span>${actual == null ? '—' : count(actual)} / ${goal == null ? 'no target' : count(goal)} MQLs</span></div>`;
+        }).join('');
+        return `<div class="market-month"><div class="market-month-head"><span>${label}</span><strong>${count(delivered)} / ${count(target)} MQLs</strong><b>${target ? ratioPercent(delivered / target) : '—'}</b></div>${productRows}</div>`;
+      }).join('');
+      return `<article class="market-card"><h3>${market}</h3>${months || '<p class="market-empty">No deliveries entered yet.</p>'}</article>`;
+    }).join('');
+  }
+
   function renderHeader() {
     const next = weeks[Math.min(closed, 7)];
     $('#next-date').textContent = closed === 8 ? '31 DEC' : new Date(`${next.date}T12:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }).toUpperCase();
@@ -104,5 +124,6 @@
   renderHeader();
   renderStages();
   renderTeams();
+  renderMarkets();
   renderRanking();
 })();
